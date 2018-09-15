@@ -1,0 +1,8 @@
+# Directories
+.Rproj.user/
+# Patterns
+*.Rproj
+# Individual files
+.Rhistory
+.RData
+.Ruserdata
