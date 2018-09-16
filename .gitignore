@@ -2,7 +2,18 @@
 .Rproj.user/
 # Patterns
 *.Rproj
+*.aux
+*.bak
+*.bbl
+*.blg
+*.ilg
+*.lof
+*.log
+*.lot
+*.out
+*.toc
 # Individual files
 .Rhistory
 .RData
 .Ruserdata
+.Rproj.user
