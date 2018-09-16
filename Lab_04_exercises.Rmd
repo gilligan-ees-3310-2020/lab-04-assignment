@@ -34,6 +34,22 @@ source(file.path(script_dir, "format_md.R"), chdir = T)
 source(file.path(script_dir, "modtran.R"), chdir = T)
 source(file.path(script_dir, "rrtm.R"), chdir = T)
 ```
+# General Instructions
+
+In the past three weeks, we focused on mastering many of the basics of using 
+R and RMarkdown. For this week's lab, when you write up the answers, I would
+like you to think about integrating your R code chunks with your text.
+
+For instance, you can describe what you're going to do to answer the question, 
+and then for each step, after you describe what you're going to do in that
+step, you can include an R code chunk to do what you just described, and then
+the subsequent text can either discuss the results of what you just did
+or describe what the next step of the analysis will do.
+
+This way, your answer can have several small chunks of R code that build on
+each other and follow the flow of your text.
+
+
 # Chapter 5 Exercises
 
 For this model, you will use the RRTM model, which includes both radiation and
