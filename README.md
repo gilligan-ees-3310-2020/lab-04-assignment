@@ -35,7 +35,8 @@ results or the next steps, depending on where you are in the process.
 * Push the changes from your local git repository to github.
 
     The last changes that you push before the due date
-    (9:00 AM on Monday Sept. 24) will be graded.
+    (9:00 AM on Monday Sept. 24) will be graded. If you run into 
+    difficulty and need extra time, please contact Ms. Best or Prof. Gilligan.
 
 I advise using git to commit changes frequently as you work and push those commits
 to github.
