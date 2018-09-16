@@ -28,7 +28,7 @@ results or the next steps, depending on where you are in the process.
 * Clone a local copy of the file repository from github to your
   own computer.
 * In your local repository, answer the exercises in the template
-  `Lab_03_data_exercises.Rmd`.
+  `Lab_04_exercises.Rmd`.
 * When you are done, knit your `.Rmd` files into PDF files.
 * Use git to commit your changes (including the edits to the `.Rmd` files
   and the new PDF files) to your local git repository.
