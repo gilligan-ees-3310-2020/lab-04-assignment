@@ -6,12 +6,12 @@ date: 'Lab: Mon. Sept. 17. Due: Mon. Sept. 24.'
 fontfamily: mathptmx
 fontsize: 12pt
 output: 
-  html_document:
-    default
-  word_document:
-    default
   pdf_document:
-    default
+    toc: yes
+  word_document:
+    toc: yes
+  html_document:
+    toc: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -265,7 +265,7 @@ b) Now run the RRTM model again, for 400 and 800 ppm CO~2~, but this time
    setting `relative_humidity = 0` (this turns off the water vapor feedback).
    At each concentration of CO~2~, adjust `T_surface` to bring the heat into
    balance (so the output has `Q` equal to zero). Now what is the climate 
-   sensitivity $\Delta T_{2 \times \text{CO}_2}$?
+   sensitivity ($\Delta T_{2 \times \text{CO}_2}$)?
    
 **Answer:** _Put your answer here._ Be sure to show your work and
 include any data, plots, etc. that you need in order to explain how

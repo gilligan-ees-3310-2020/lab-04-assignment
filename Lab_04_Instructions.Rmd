@@ -1,13 +1,13 @@
 ---
 title: 'Instructions for Lab #4'
-subtitle: "`Lapse Rates, Clouds, and Water-Vapor Feedback"
-author: "`Jonathan Gilligan"
+subtitle: "Lapse Rates, Clouds, and Water-Vapor Feedback"
+author: "Jonathan Gilligan"
 date: 'Lab: Mon. Sept. 17. Due: Mon. Sept. 24.'
 fontfamily: mathptmx
 fontsize: 12pt
 output: 
-  pdf_document:
-    default
+  pdf_document: 
+    toc: yes
   word_document:
     default
   html_document:
@@ -47,7 +47,7 @@ module can run efficiently on an ordinary computer. In order to speed up the
 calculations, RRTM does not calculate the entire longwave spectrum the way
 MODTRAN does, but uses a simplified approximation that is much faster when 
 the big climate models need to run this radiative transfer calculation 
-roughly 52 quadrillion (5.2 &times 10^15^) times in a simulation of 100 years
+roughly 52 quadrillion ($5.2 \times 10^{15}$) times in a simulation of 100 years
 of the earth's climate.
 
 An advantage that RRTM has over MODTRAN, is that MODTRAN assumes that the 
@@ -235,6 +235,8 @@ This run has surface temperature
 `r format_md(default_rrtm$T_surface, digits = 2)` K and a heat imbalance of 
 `r format_md(default_rrtm$Q, digits = 2)` Watts per square meter.
 
+### Interpreting RRTM Results
+
 We can plot the heat flows as a function of altitude:
 ```{r plot_rrtm_example}
 plot_heat_flows(default_rrtm)
@@ -270,6 +272,8 @@ This is a consequence of convection: The difference between the downward and
 upward radiative fluxes is taken up by convection, which moves heat upward
 when warm air rises and cool air sinks.
 
+### Determining Climate Sensitivity with RRTM
+
 We can also use the RRTM model to study what happens when we double CO~2~:
 ```{r rrtm_warming}
 rrtm_double_co2 = run_rrtm(co2_ppm = 800)
@@ -291,7 +295,16 @@ R code:
 When we set T~surface~ to 
 `r format_md(rrtm_double_co2_balanced$T_surface, digits = 2)` K, the heat
 imbalance becomes `r format_md(rrtm_double_co2_balanced$Q, digits = 2)`
-Watts/m^2^.
+Watts/m^2^. The climate sensitivity is the change in equilibrium 
+T~surface~ when you double CO~2~: 
+$\Delta T_{2\times \text{CO}_2} = `r format_md(rrtm_double_co2_balanced$T_surface, digits = 2)` \mathrm{K} - 
+`r format_md(default_rrtm$T_surface, digits = 2)` \mathrm{K} = 
+`r format_md(rrtm_double_co2_balanced$T_surface - default_rrtm$T_surface, digits = 2)`$ K.
+You may remember that when we calculated the climate sensitivity with MODTRAN 
+(using constant relative humidity to enable water-vapor feedback) we got 
+$\Delta T_{2\times\text{CO}_2} = 1.21$ K for the tropical atmosphere (it's 
+smaller for the other atmospheres), so this shows that including convection in 
+our calculations roughly doubles the climate sensivity.
 
 ## Enhancements to `read_modtran`
 
@@ -314,6 +327,57 @@ modtran_doubled_co2 = run_modtran(co2_ppm = 800)
 modtran_doubled_co2$i_out
 plot_modtran(modtran_doubled_co2, i_out_ref = modtran_baseline$i_out)
 ```
+
+# New R and RMarkdown tricks
+
+Sometimes you may want to use different text into your document, depending
+on what the result of a calculation is.
+
+For instance, I might have a function called `foo` that returns a number
+and I want to write something different if `foo(x)` > x than if 
+`foo(x)` < x. Here, the function `ifelse` can come in handy.
+```{r define_foo}
+foo = function(x) {
+  x^2
+}
+```
+Now I can write `ifelse(foo(x) < x, "less than", "greater than")`:
+When x = 0.5, `foo(x)` is 
+`r x = 0.5; ifelse(foo(x) < x, "less than", "greater than")` x,
+but when x = 2.0, `foo(x)` is 
+`r x = 2.0; ifelse(foo(x) < x, "less than", "greater than")` x.
+
+You may have spotted a problem with the code above: What if `foo(x)` = x?
+Then I need another `ifelse`: 
+`ifelse(foo(x) < x, "less than", ifelse(foo(x) > x, "greater than", "equal to"))`.
+This is cumbersome to type into your text, so you might want to write a function:
+```{r compare_foo}
+compare_f = function(f, x) {
+  # f is a function
+  # x is a number or a numeric variable
+  result = f(x)
+  ifelse(result < x, "less than",
+         ifelse(result > x, "greater than", 
+                "equal to"))
+}
+```
+Now I can just write `compare_f(foo, x)`: 
+When x = 0.5, `foo(x)` is `r compare_f(foo, 0.5)` x, but 
+when x = 2.0, `foo(x)` is `r compare_f(foo, 2.0)` x and 
+when x = 1.0, `foo(x)` is `r compare_f(foo, 1.0)` x.
+
+This may seem kind of strange, but it can be helpful if you have a report
+that you prepare regularly with different data and want to be able to 
+update by running RMarkdown with different data sets, and have the text
+adjust automatically to what the new numbers are.
+
+This approach is used when businesses need to generate monthly reports 
+(e.g., sales, finances, etc.) and want to automate the process with an
+RMarkdown report template that can be used over and over with each new
+month's data.
+
+It is also applicable to climate science, where many laboratories like to 
+update their reports every month or every year with the latest climate data.
 
 # Exercises
 
@@ -368,7 +432,7 @@ a) Run the MODTRAN model with present-day CO~2~ (400 ppm) and a tropical atmosph
 
 b) Now set `atmosphere` to `"midlatitude winter"`, set `clouds` to `"none"`,
    and set the sensor altitude to 0 km (`altitude_km = 0`) and make the sensor 
-   look up (`looking = "`up"`). 
+   look up (`looking = "up"`). 
    This means your sensor is on the ground looking up at the longwave radiation 
    coming down from the atmosphere to the ground instead of looking down from 
    the top of the atmosphere at the longwave radiation going out to space.
@@ -393,7 +457,7 @@ b) Now set `atmosphere` to `"midlatitude winter"`, set `clouds` to `"none"`,
           (cooler)?
         * Why do you think this is?
     
-c) Keeping the same settings for `atmosphere = "`midlatitude winter"`,
+c) Keeping the same settings for `atmosphere = "midlatitude winter"`,
    `altitude_km = 0`, and `looking="up"`, set `h2o_scale=1`
    and run MODTRAN first with no clouds, then with three kinds of clouds:
    standard cirrus, altostratus, and stratus (`clouds="none"`, 
