@@ -250,7 +250,7 @@ We can plot the heat flows as a function of altitude:
 plot_heat_flows(default_rrtm)
 ```
 
-![](Lab_04_Instructions_files/figure-gfm/plot_rrtm_example-1.png)<!-- -->
+![](lab-04-Instructions_files/figure-gfm/plot_rrtm_example-1.png)<!-- -->
 
 What you see in this plot are thick lines representing downward heat
 flow and thin lines representing upward flow. The different colors
@@ -332,7 +332,7 @@ modtran_baseline$i_out
 plot_modtran(modtran_baseline)
 ```
 
-![](Lab_04_Instructions_files/figure-gfm/modtran_examples-1.png)<!-- -->
+![](lab-04-Instructions_files/figure-gfm/modtran_examples-1.png)<!-- -->
 
 You can also leave out the `file` argument to `read_modtran` if you
 don’t need to save the MODTRAN output to a file.
@@ -348,7 +348,7 @@ modtran_doubled_co2$i_out
 plot_modtran(modtran_doubled_co2, i_out_ref = modtran_baseline$i_out)
 ```
 
-![](Lab_04_Instructions_files/figure-gfm/modtran_example_2-1.png)<!-- -->
+![](lab-04-Instructions_files/figure-gfm/modtran_example_2-1.png)<!-- -->
 
 # New R and RMarkdown tricks
 
