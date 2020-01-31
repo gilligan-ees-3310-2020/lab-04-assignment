@@ -366,9 +366,23 @@ foo = function(x) {
 }
 ```
 
-Now I can write `ifelse(foo(x) < x, "less than", "greater than")`: When
-x = 0.5, `foo(x)` is less than x, but when x = 2.0, `foo(x)` is greater
-than x.
+Now I can write `ifelse(foo(x) < x, "less than", "greater than")`:
+
+``` r
+x = 0.5
+print(str_c("foo(", x, ") is ", ifelse(foo(x) < x, "less than", "greater than"),
+            " ", x))
+```
+
+    ## [1] "foo(0.5) is less than 0.5"
+
+``` r
+x = 2.0
+print(str_c("foo(", x, ") is ", ifelse(foo(x) < x, "less than", "greater than"),
+            " ", x))
+```
+
+    ## [1] "foo(2) is greater than 2"
 
 You may have spotted a problem with the code above: What if `foo(x)` =
 x? Then I need another `ifelse`: `ifelse(foo(x) < x, "less than",
@@ -387,9 +401,42 @@ compare_f = function(f, x) {
 }
 ```
 
-Now I can just write `compare_f(foo, x)`: When x = 0.5, `foo(x)` is less
-than x, but when x = 2.0, `foo(x)` is greater than x and when x = 1.0,
-`foo(x)` is equal to x.
+Now I can just write `compare_f(foo, x)`:
+
+``` r
+x = 0.5
+print(str_c("foo(", x, ") is ", compare_f(foo, x), " ", x))
+```
+
+    ## [1] "foo(0.5) is less than 0.5"
+
+``` r
+x = 1.0
+print(str_c("foo(", x, ") is ", compare_f(foo, x), " ", x))
+```
+
+    ## [1] "foo(1) is equal to 1"
+
+``` r
+x = 2.0
+print(str_c("foo(", x, ") is ", compare_f(foo, x), " ", x))
+```
+
+    ## [1] "foo(2) is greater than 2"
+
+You can also incorporate this output into your RMarkdown text. The
+RMarkdown text
+
+``` markdown
+When x = 0.5 foo(x) `r compare_f(foo, 0.5)` x, 
+and when x = 1.0 foo(x) `r compare_f(foo, 1.0)` x,
+and when x = 2.0 foo(x) `r compare_f(foo, 2.0)` x.
+```
+
+Will produce the following:
+
+> When x = 0.5 foo(x) less than x, and when x = 1.0 foo(x) equal to x,
+> and when x = 2.0 foo(x) greater than x.
 
 This may seem kind of strange, but it can be helpful if you have a
 report that you prepare regularly with different data and want to be

@@ -8,9 +8,9 @@ fontsize: 12pt
 output: 
   html_document:
     toc: yes
-  github_document:
-    toc: yes
   word_document:
+    toc: yes
+  github_document:
     toc: yes
   pdf_document: 
     toc: yes
@@ -345,10 +345,16 @@ foo = function(x) {
 }
 ```
 Now I can write `ifelse(foo(x) < x, "less than", "greater than")`:
-When x = 0.5, `foo(x)` is 
-`r x = 0.5; ifelse(foo(x) < x, "less than", "greater than")` x,
-but when x = 2.0, `foo(x)` is 
-`r x = 2.0; ifelse(foo(x) < x, "less than", "greater than")` x.
+```{r foo_less}
+x = 0.5
+print(str_c("foo(", x, ") is ", ifelse(foo(x) < x, "less than", "greater than"),
+            " ", x))
+```
+```{r foo_greater}
+x = 2.0
+print(str_c("foo(", x, ") is ", ifelse(foo(x) < x, "less than", "greater than"),
+            " ", x))
+```
 
 You may have spotted a problem with the code above: What if `foo(x)` = x?
 Then I need another `ifelse`: 
@@ -366,9 +372,31 @@ compare_f = function(f, x) {
 }
 ```
 Now I can just write `compare_f(foo, x)`: 
-When x = 0.5, `foo(x)` is `r compare_f(foo, 0.5)` x, but 
-when x = 2.0, `foo(x)` is `r compare_f(foo, 2.0)` x and 
-when x = 1.0, `foo(x)` is `r compare_f(foo, 1.0)` x.
+```{r compare_foo_less}
+x = 0.5
+print(str_c("foo(", x, ") is ", compare_f(foo, x), " ", x))
+```
+```{r compare_foo_equal}
+x = 1.0
+print(str_c("foo(", x, ") is ", compare_f(foo, x), " ", x))
+```
+```{r compare_foo_greater}
+x = 2.0
+print(str_c("foo(", x, ") is ", compare_f(foo, x), " ", x))
+```
+You can also incorporate this output into your RMarkdown text.
+The RMarkdown text 
+````markdown
+When x = 0.5 foo(x) ``r "r"` compare_f(foo, 0.5)` x, 
+and when x = 1.0 foo(x) ``r "r"` compare_f(foo, 1.0)` x,
+and when x = 2.0 foo(x) ``r "r"` compare_f(foo, 2.0)` x.
+````
+Will produce the following:
+
+> When x = 0.5 foo(x) `r compare_f(foo, 0.5)` x, 
+> and when x = 1.0 foo(x) `r compare_f(foo, 1.0)` x,
+> and when x = 2.0 foo(x) `r compare_f(foo, 2.0)` x.
+
 
 This may seem kind of strange, but it can be helpful if you have a report
 that you prepare regularly with different data and want to be able to 
