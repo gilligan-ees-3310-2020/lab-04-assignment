@@ -2,6 +2,8 @@
 # Draw figure for atmospheric layer model
 #
 library(tidyverse)
+library(stringr)
+
 
 make_layer_diagram = function(n_layers, boundary = TRUE) {
   layer_unit = 9 / (2 * (n_layers + 1) + n_layers)

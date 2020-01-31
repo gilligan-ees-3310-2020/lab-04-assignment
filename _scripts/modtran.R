@@ -3,9 +3,16 @@ p_load(tidyverse, scales, xml2)
 
 ssource <- function(filename, chdir = F) {
   if(!file.exists(filename)) {
-    if(exists("script_dir")) script_dir = script_dir
-    else if (exists("script.dir")) script_dir = script.dir
-    else if (dir.exists("scripts")) script_dir = "scripts"
+    if(exists("script_dir", envir = globalenv()))
+      script_dir = get("script_dir", envir = globalenv())
+    else if (exists("script.dir", envir = globalenv()))
+      script_dir = get("script.dir", envir = globalenv())
+    else if (dir.exists("_scripts"))
+      script_dir = "_scripts"
+    else if (dir.exists(rprojroot::find_rstudio_root_file("_scripts")))
+      script_dir = ("_scripts")
+    else
+      script_dir = "."
     if(dir.exists(script_dir)) filename = file.path(script_dir, filename)
   }
   source(filename, chdir = chdir,
@@ -17,7 +24,7 @@ if (! exists("planck")) ssource("planck.R", chdir = T)
 
 
 
-model_params = data_frame(
+model_params = tibble(
   key = c("co2_ppm",
           "ch4_ppm",
           "trop_o3_ppb",
@@ -57,7 +64,7 @@ model_params = data_frame(
             NA, "sensor_orientation")
 )
 
-atmos_spec <- data_frame(
+atmos_spec <- tibble(
   key = c("tropical",
           "midlatitude summer", "midlatitude winter",
           "subarctic summer", "subarctic winter",
@@ -74,13 +81,13 @@ atmos_spec <- data_frame(
   )
 )
 
-h2o_fixed <- data_frame(
+h2o_fixed <- tibble(
   key = c("vapor pressure", "relative humidity"),
   value = c(0, 1),
   descr = c("constant vapor pressure", "constant relative humidity")
 )
 
-cloud_spec <- data_frame(
+cloud_spec <- tibble(
   key = c("none",
           "cumulus",
           "altostratus",
@@ -112,7 +119,7 @@ cloud_spec <- data_frame(
             "NOAA cirrus model")
 )
 
-sensor_orientation <- data_frame(
+sensor_orientation <- tibble(
   key = c("down", "up"),
   value = c(180, 0),
   descr = c("looking down", "looking up")
@@ -157,7 +164,7 @@ run_modtran <- function(filename = NULL,
     # message("Lookup class = ", class(lookup), ", type = ", typeof(lookup), ", dim = ", dim(lookup))
     values[k] = lookup %>% filter(key == values[k]) %>% select(value) %>% simplify()
   }
-  args <- data_frame(key = names(values), value = values)
+  args <- tibble(key = names(values), value = values)
   params = model_params %>% inner_join(args, by = "key")
   url_base = 'http://climatemodels.uchicago.edu/cgi-bin/modtran/modtran.cgi?'
   args = str_c(params$cgi, params$value, sep = "=", collapse = "&")
@@ -170,7 +177,7 @@ run_modtran <- function(filename = NULL,
   if (! is.null(filename)) {
     write(body, filename)
   }
-
+  Sys.sleep(1)
 
   output <- str_c(body, collapse = "\n") %>% read_modtran(text = .)
   invisible(output)
@@ -192,18 +199,19 @@ read_modtran_profile <- function(filename = NULL, text = NULL) {
     close(f)
   }
   im <- str_detect(lines, "^ +ATMOSPHERIC PROFILES") %>% which()
-  header <- im[[1]] + 2
-  start <- im[[1]] + 5
-  end <- im[[2]] - 2
+  header <- im[[3]] + 2
+  start <- header + 2
+  end <- im[[4]] - 2
   col_names <- lines[[header]] %>% str_trim() %>% str_split(" +") %>% unlist() %>%
     str_replace_all("([^a-zA-Z0-9_]+)", ".") %>%
     str_replace_all(c('^\\.' = '', '\\.$' = ''))
   dups <- duplicated(col_names) %>% which()
   col_names[dups] <- col_names[dups] %>% str_c(seq_along(dups), sep = ".")
   profile <- lines[start:end] %>% str_trim() %>% str_c(collapse = "\n") %>%
-    read_table2(col_names=col_names[1:10])
-  profile <- profile[,2:4]
-  names(profile) <- col_names[2:4]
+    read_table2(col_names=col_names)
+  profile <- profile %>% select(Z, P, T, H2O, O3, CO2, CH4) %>%
+    # convert from MBAR to ppmv
+    mutate(H2O = H2O * 1E6 / P)
   profile
 }
 
@@ -292,7 +300,8 @@ plot_modtran <- function(filename = NULL, text = NULL,
                          annotate_y_1 = 0.49, annotate_y_2 = 0.44,
                          annotate_size = 5, text_size = 10,
                          legend_text_size = 10, legend_size = 0.2,
-                         line_scale = 1, direction = "out") {
+                         line_scale = 1, direction = "out",
+                         lambda = NULL) {
   if (! is.null(modtran_data)) {
     x <- modtran_data
   } else if (! is.null(filename) && is.list(filename) &&
@@ -328,14 +337,16 @@ plot_modtran <- function(filename = NULL, text = NULL,
 
   thermal <- data.frame(k = spectrum$k, t = tmin)
   thermal <- bind_rows(thermal, map(seq(tmin + dt, tmax, dt),
-                                    ~data_frame(k = spectrum$k, t = .x)))
+                                    ~tibble(k = spectrum$k, t = .x)))
   thermal <- thermal %>%
     mutate(tk = planck(k, as.numeric(as.character(t)),fudge_factor=1),
            t = paste(t, "K") %>%
              ordered(., levels = c("MODTRAN", sort(unique(.), decreasing = TRUE)))
     ) %>% na.omit() %>% filter(between(k, k_limits[1], k_limits[2]))
 
+  if (is.null(lambda)) {
   lambda = c(1, 2, 2.5, 3, 3.5, 4, 5:10, 12, 14, 17, 20, 25, 30, 35, 40, 50, 100)
+  }
 
   spectrum <- spectrum %>% select(k, tk) %>% na.omit() %>%
     filter(between(k, k_limits[1], k_limits[2]))
@@ -360,14 +371,14 @@ plot_modtran <- function(filename = NULL, text = NULL,
   if (! is.na(annotate_size)) {
     p1 <- p1 + annotate("text", x=annotate_x_1, y=annotate_y_1,
                         label=caption, parse="TRUE", hjust=0, vjust=1,
-                        size=annotate_size, color="dark blue")
+                        size=annotate_size, color="darkblue")
 
     if (! is.na(delta_i)) {
       caption <- paste("Delta * I[", direction, "] == ",
                        formatC(delta_i, digits=2, format="f"))
       p1 <- p1 + annotate("text", x=annotate_x_2, y=annotate_y_1,
                           label=caption, parse="TRUE", hjust=1, vjust=1,
-                          size=annotate_size, color="dark blue")
+                          size=annotate_size, color="darkblue")
     }
 
     if (! is.na(last_i_out)) {
@@ -375,7 +386,7 @@ plot_modtran <- function(filename = NULL, text = NULL,
                                             digits=2, format="f"))
       p1 <- p1 + annotate("text", x=annotate_x_2, y=annotate_y_2,
                           label=caption, parse="TRUE", hjust=1, vjust=1,
-                          size=annotate_size, color="dark blue")
+                          size=annotate_size, color="darkblue")
     } else if (! is.na(delta_t)) {
       caption <- paste("Delta * T[ground] == ",formatC(delta_t,
                                                        digits=delta_t_digits,
@@ -383,7 +394,7 @@ plot_modtran <- function(filename = NULL, text = NULL,
                        " * K")
       p1 <- p1 + annotate("text", x=annotate_x_2, y=annotate_y_2,
                           label=caption, parse="TRUE", hjust=1, vjust=1,
-                          size=annotate_size, color="dark blue")
+                          size=annotate_size, color="darkblue")
 
     }
   }
@@ -393,7 +404,7 @@ plot_modtran <- function(filename = NULL, text = NULL,
           panel.grid.minor=element_line(size=0.1,color="gray95"),
           legend.key.size = unit(legend_size,"npc"),
           legend.text = element_text(size=legend_text_size),
-          legend.position = c(1,1), legend.justification = c(1,1),
+          legend.position = c(0.99,0.99), legend.justification = c(1,1),
           legend.key.height = unit(1, "lines"), legend.key.width = unit(2, "lines"),
           legend.background = element_rect(color = "black", fill = "white"))
 
