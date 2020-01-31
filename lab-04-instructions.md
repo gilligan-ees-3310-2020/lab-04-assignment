@@ -334,8 +334,8 @@ plot_modtran(modtran_baseline)
 
 ![](lab-04-instructions_files/figure-gfm/modtran_examples-1.png)<!-- -->
 
-You can also leave out the `file` argument to `read_modtran` if you
-don’t need to save the MODTRAN output to a file.
+You can also leave out the `file` argument to `run_modtran` if you don’t
+need to save the MODTRAN output to a file.
 
 ``` r
 modtran_doubled_co2 = run_modtran(co2_ppm = 800)
