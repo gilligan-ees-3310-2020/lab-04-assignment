@@ -6,13 +6,13 @@ date: 'Lab: Mon. Feb.~3 Due: Mon. Feb.~10.'
 fontfamily: mathptmx
 fontsize: 12pt
 output: 
-  html_document:
+  pdf_document: 
     toc: yes
-  github_document:
+  html_document:
     toc: yes
   word_document:
     toc: yes
-  pdf_document: 
+  github_document:
     toc: yes
 ---
 ```{r setup, include=FALSE}
