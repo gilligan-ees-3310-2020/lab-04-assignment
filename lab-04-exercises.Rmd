@@ -51,7 +51,6 @@ or describe what the next step of the analysis will do.
 This way, your answer can have several small chunks of R code that build on
 each other and follow the flow of your text.
 
-
 # Chapter 5 Exercises
 
 For this model, you will use the RRTM model, which includes both radiation and
@@ -169,7 +168,8 @@ b) Now set `atmosphere` to `"midlatitude winter"`, set `clouds` to `"none"`,
      (roughly 600--750 cm^-1^) and the infrared window 
      (roughly 800--1200 cm^-1^). 
       
-     * Which corresponds to higher emission temperatures and which to lower temperatures? 
+     * Which corresponds to higher emission temperatures and which to lower 
+       temperatures? 
      * Why do you think this is?
     
    * For the atmosphere with normal water vapor (`h2o_scale = 1`), how does 
@@ -199,7 +199,7 @@ c) Keeping the same settings for `atmosphere = "midlatitude winter"`,
    (i.e., a perfect black body).
     
    Cirrus clouds are very high (around 10 km above sea level), 
-   `altostratus clouds are at a medium height (with a base around 2.4 km), 
+   altostratus clouds are at a medium height (with a base around 2.4 km), 
    and stratus clouds are very low (with a base around 0.33 km).
 
    For each run examine  

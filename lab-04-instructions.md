@@ -443,9 +443,9 @@ the RRTM model at <http://climatemodels.uchicago.edu/rrtm/> than with
 the R interface `run_rrtm`.
 
 1)  Make a tibble containing the values of the lapse rate and the
-    corresponding equilibrium surface temperature, and make a plot with
-    lapse rate on the horizontal axis and surface temperature on the
-    vertical axis.
+    corresponding equilibrium surface temperature, and **make a plot**
+    with lapse rate on the horizontal axis and surface temperature on
+    the vertical axis.
 
 2)  Describe how the equilibrium surface temperature varies as the lapse
     rate varies.
@@ -577,7 +577,7 @@ atmosphere.
     water vapor feedback). At each concentration of CO<sub>2</sub>,
     adjust `T_surface` to bring the heat into balance (so the output has
     `Q` equal to zero). Now what is the climate sensitivity
-    \(\Delta T_{2 \times \text{CO}_2}\)?
+    (\(\Delta T_{2 \times \text{CO}_2}\))?
 
 3)  Compare the climate sensitivity
     (\(\Delta T_{2 \times \text{CO}_2}\)) in part (a) (with water-vapor

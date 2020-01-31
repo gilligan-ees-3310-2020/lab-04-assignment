@@ -6,13 +6,13 @@ date: 'Lab: Mon. Feb.~3 Due: Mon. Feb.~10.'
 fontfamily: mathptmx
 fontsize: 12pt
 output: 
-  pdf_document: 
-    toc: yes
   html_document:
+    toc: yes
+  github_document:
     toc: yes
   word_document:
     toc: yes
-  github_document:
+  pdf_document: 
     toc: yes
 ---
 ```{r setup, include=FALSE}
@@ -419,7 +419,7 @@ model at <http://climatemodels.uchicago.edu/rrtm/> than with the R interface
 `run_rrtm`. 
 
 a) Make a tibble containing the values of the lapse rate and the corresponding 
-   equilibrium surface temperature, and make a plot with lapse rate on the 
+   equilibrium surface temperature, and **make a plot** with lapse rate on the 
    horizontal axis and surface temperature on the vertical axis.
 
 b) Describe how the equilibrium surface temperature varies as the lapse rate 
@@ -432,7 +432,8 @@ b) Describe how the equilibrium surface temperature varies as the lapse rate
 **Note:** this exercise only considers the effect of clouds on longwave
 radiation and ignores the effect of clouds on albedo, which is also important.
 
-a) Run the MODTRAN model with present-day CO~2~ (400 ppm) and a tropical atmosphere. 
+a) Run the MODTRAN model with present-day CO~2~ (400 ppm) and a tropical 
+   atmosphere. 
    Plot the outgoing infrared spectrum. 
    
    Run MODTRAN four times: first with no clouds, and then with three different
@@ -543,7 +544,7 @@ b) Now run the RRTM model again, for 400 and 800 ppm CO~2~, but this time
    setting `relative_humidity = 0` (this turns off the water vapor feedback).
    At each concentration of CO~2~, adjust `T_surface` to bring the heat into
    balance (so the output has `Q` equal to zero). Now what is the climate 
-   sensitivity $\Delta T_{2 \times \text{CO}_2}$?
+   sensitivity ($\Delta T_{2 \times \text{CO}_2}$)?
    
 c) Compare the climate sensitivity ($\Delta T_{2 \times \text{CO}_2}$) in 
    part (a) (with water-vapor feedback) and part (b) (without water-vapor 
