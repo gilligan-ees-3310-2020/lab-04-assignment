@@ -6,13 +6,13 @@ date: 'Lab: Mon. Feb.~3 Due: Mon. Feb.~10.'
 fontfamily: mathptmx
 fontsize: 12pt
 output: 
-  html_document:
-    toc: yes
-  word_document:
+  pdf_document: 
     toc: yes
   github_document:
     toc: yes
-  pdf_document: 
+  word_document:
+    toc: yes
+  html_document:
     toc: yes
 ---
 ```{r setup, include=FALSE}
@@ -387,15 +387,15 @@ print(str_c("foo(", x, ") is ", compare_f(foo, x), " ", x))
 You can also incorporate this output into your RMarkdown text.
 The RMarkdown text 
 ````markdown
-When x = 0.5 foo(x) ``r "r"` compare_f(foo, 0.5)` x, 
-and when x = 1.0 foo(x) ``r "r"` compare_f(foo, 1.0)` x,
-and when x = 2.0 foo(x) ``r "r"` compare_f(foo, 2.0)` x.
+When x = 0.5 foo(x) is ``r "r"` compare_f(foo, 0.5)` x, 
+and when x = 1.0 foo(x) is ``r "r"` compare_f(foo, 1.0)` x,
+and when x = 2.0 foo(x) is ``r "r"` compare_f(foo, 2.0)` x.
 ````
 Will produce the following:
 
-> When x = 0.5 foo(x) `r compare_f(foo, 0.5)` x, 
-> and when x = 1.0 foo(x) `r compare_f(foo, 1.0)` x,
-> and when x = 2.0 foo(x) `r compare_f(foo, 2.0)` x.
+> When x = 0.5 foo(x) is `r compare_f(foo, 0.5)` x, 
+> and when x = 1.0 foo(x) is `r compare_f(foo, 1.0)` x,
+> and when x = 2.0 foo(x) is `r compare_f(foo, 2.0)` x.
 
 
 This may seem kind of strange, but it can be helpful if you have a report

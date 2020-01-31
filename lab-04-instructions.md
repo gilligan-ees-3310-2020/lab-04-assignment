@@ -428,15 +428,15 @@ You can also incorporate this output into your RMarkdown text. The
 RMarkdown text
 
 ``` markdown
-When x = 0.5 foo(x) `r compare_f(foo, 0.5)` x, 
-and when x = 1.0 foo(x) `r compare_f(foo, 1.0)` x,
-and when x = 2.0 foo(x) `r compare_f(foo, 2.0)` x.
+When x = 0.5 foo(x) is `r compare_f(foo, 0.5)` x, 
+and when x = 1.0 foo(x) is `r compare_f(foo, 1.0)` x,
+and when x = 2.0 foo(x) is `r compare_f(foo, 2.0)` x.
 ```
 
 Will produce the following:
 
-> When x = 0.5 foo(x) less than x, and when x = 1.0 foo(x) equal to x,
-> and when x = 2.0 foo(x) greater than x.
+> When x = 0.5 foo(x) is less than x, and when x = 1.0 foo(x) is equal
+> to x, and when x = 2.0 foo(x) is greater than x.
 
 This may seem kind of strange, but it can be helpful if you have a
 report that you prepare regularly with different data and want to be
