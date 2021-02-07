@@ -474,30 +474,20 @@ c) In cities, streets and parking lots are usually paved with asphalt.
 First, run the RRTM model in its default configuration and note the surface
 temperature and the albedo.
 
-a) Change the surface albedo from "Earth's average" to "Asphalt".
-   * What is the albedo?
+a) Change the low cloud fraction to 0.70 (70%)
    * How much does the shortwave light absorbed by the surface change?
    * How much does the shortwave light going out to space change?
    * How much does the longwave light absorbed by the surface change?
    * How much does the longwave light going out to space change?
-   * How much does the total balance of heat change (i.e., how many W/m^2^ does
-     the Earth lose or gain)?
-   
-   * Adjust the ground temperature until the Earth loses as much energy as it 
-     gains. 
-     What is the new surface temperature? 
-     How does it compare to the surface temperature in the default 
-     configuration?
+   * How much does the total balance of heat change 
+     (i.e., how many W/m^2^ does the Earth lose or gain)?
+   * Adjust the temperature to bring the heat flows back into balance.
+     How much did the temperature change?
 
-b) Change the surface albedo to "Concrete". Answer the same questions as in part
-   (a).
+b) Repeat part (a), but with the low cloud fraction set to 0 and the high-cloud
+   fraction set to 0.20 (20%).
    
-c) In cities, streets and parking lots are usually paved with asphalt.
-   Roofs of houses and other buildings are often covered with asphalt shingles 
-   or black rubber-like compounds. 
-
-   How would the choice of using asphalt for roads, parking lots, and roofs in
-   a large city affect the local climate in the city?
-   Would using low-albedo materials, such as concrete for streets and parking 
-   lots and light-colored polymers for the roofs of buildings have a benefit 
-   for the people living in the city?
+c) Use the `plot_heat_flows()` function to plot the heat flows for the 
+   low clouds and the high clouds. Describe the changes you see in the upward 
+   and downward heat flows (shortwave, longwave, and total) for the two cases.
+   Which kind of cloud had the biggest effect on the outgoing radiation?
