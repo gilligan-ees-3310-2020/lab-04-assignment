@@ -152,8 +152,8 @@ run_modtran <- function(filename = NULL,
                 "altitude_km", "looking")) %>%
     map(~as.character(.x[1])) %>%
     modify_at("atmosphere", ~str_to_lower(.x) %>%
-             str_replace_all(c("[^a-z0-9]+" = " ", "  +" = " ")) %>%
-             str_trim()
+                str_replace_all(c("[^a-z0-9]+" = " ", "  +" = " ")) %>%
+                str_trim()
     ) %>%
     simplify()
   for(k in c('h2o_fixed', 'atmosphere', 'clouds', 'looking')) {
@@ -179,12 +179,13 @@ run_modtran <- function(filename = NULL,
   }
   Sys.sleep(1)
 
+
   output <- str_c(body, collapse = "\n") %>% read_modtran(text = .)
   invisible(output)
 }
 
 
-read_modtran_profile <- function(filename = NULL, text = NULL) {
+read_modtran_profile <- function(text = NULL, filename = NULL) {
   if (! is.null(filename) && ! is.na(filename)) {
     if (isTRUE(any(str_detect(filename, "\n"))) || length(filename) > 1) {
       text = filename
@@ -289,8 +290,8 @@ read_modtran <- function(filename = NULL, text = NULL, scale_factor = 3.14E+4) {
                  atmosphere = atmos_spec))
 }
 
-plot_modtran <- function(filename = NULL, text = NULL,
-                         modtran_data = NULL,
+plot_modtran <- function(modtran_data = NULL,
+                         text = NULL, filename = NULL,
                          descr = NULL, i_out_ref = NA,
                          last_i_out = NA, delta_t = NA,
                          tmin=220, tmax = 300,
@@ -345,7 +346,7 @@ plot_modtran <- function(filename = NULL, text = NULL,
     ) %>% na.omit() %>% filter(between(k, k_limits[1], k_limits[2]))
 
   if (is.null(lambda)) {
-  lambda = c(1, 2, 2.5, 3, 3.5, 4, 5:10, 12, 14, 17, 20, 25, 30, 35, 40, 50, 100)
+    lambda = c(1, 2, 2.5, 3, 3.5, 4, 5:10, 12, 14, 17, 20, 25, 30, 35, 40, 50, 100)
   }
 
   spectrum <- spectrum %>% select(k, tk) %>% na.omit() %>%
