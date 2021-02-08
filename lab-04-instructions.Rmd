@@ -1,21 +1,21 @@
 ---
 title: 'Instructions for Lab #4'
-subtitle: "Lapse Rates, Clouds, and Water-Vapor Feedback"
+subtitle: "Lapse Rates and Clouds"
 author: "Jonathan Gilligan"
-date: 'Lab: Mon. Feb.~15 Due: Mon. Feb.~22.'
+date: 'Lab: Mon. Feb. 15 Due: Mon. Feb. 22.'
 fontfamily: mathptmx
 fontsize: 12pt
 output:
+  github_document:
+    toc: yes
+  html_document:
+    toc: yes
+  word_document:
+    toc: yes
   pdf_document:
     toc: yes
     includes:
       in_header: ees3310.sty
-  github_document:
-    toc: yes
-  word_document:
-    toc: yes
-  html_document:
-    toc: yes
 ---
 ```{r setup, include=FALSE}
 knitr::knit_hooks$set(inline = function(x) { knitr:::format_sci(x, 'md')})
@@ -50,12 +50,12 @@ source(file.path(script_dir, "format_md.R"), chdir = T)
 source(file.path(script_dir, "modtran.R"), chdir = T)
 source(file.path(script_dir, "rrtm.R"), chdir = T)
 ```
-# Exercises with lapse rate, clouds, and water-vapor feedback.
+# Exercises with lapse rate and clouds.
 
 In this lab, you will learn about a new climate model, RRTM.
 RRTM stands for "Rapid Radiative Transfer Model."
 This model is a radiative-convective model that uses code
-from the radiative-transfer portion of a state-of-the-art globam climate model
+from the radiative-transfer portion of a state-of-the-art global climate model
 called the "Community Climate System Model," developed at the National Center
 for Atmospheric Research in Boulder CO.
 
@@ -64,8 +64,9 @@ module can run efficiently on an ordinary computer. In order to speed up the
 calculations, RRTM does not calculate the entire longwave spectrum the way
 MODTRAN does, but uses a simplified approximation that is much faster when
 the big climate models need to run this radiative transfer calculation
-roughly 52 quadrillion ($5.2 \times 10^{15}$) times in a simulation of 100 years
-of the earth's climate.
+roughly 52 quadrillion 
+(`r format_md(5.2E15, digits = 1, format = "scientific")`) times in a 
+simulation of 100 years of the earth's climate.
 
 An advantage that RRTM has over MODTRAN, is that MODTRAN assumes that the
 atmosphere is static (none of the air moves), whereas RRTM allows for
@@ -76,7 +77,7 @@ We will use RRTM to explore the role of convection in the earth system
 and to examine the water-vapor feedback in the presence of convection.
 
 You can run the RRTM model interactively on the web at
-<http://climatemodels.uchicago.edu/rrtm/index.html>
+<http://climatemodels.uchicago.edu/rrtm/>
 and I have also written a script that allows you to run it from R.
 
 To run the model interactively, you can adjust various parameters, such as the
@@ -90,7 +91,8 @@ You can also introduce aerosols typical of different parts of the earth, such as
 cities (with soot, sulfates, and other pollution), deserts (with blowing dust),
 oceans (with sea spray and salt), and a Pinatubo-like volcanic eruption.
 
-Like MODTRAN, the model does not automatically adjust the surface temperature.
+Like MODTRAN, the RRTM model does not automatically adjust the surface 
+temperature.
 Instead, it calculates the upward and downward flux of longwave and shortwave
 radiation at 51 different levels of the atmosphere and reports whether the heat
 flow is balanced (heat in = heat out) at the top of the atmosphere.
@@ -110,7 +112,7 @@ to load it.
   with the data from a MODTRAN run. You call it with the following arguments:
 
   * `filename` is the name of the file to save the data to. The function
-    returns the output data, so it's optional to specify a filename.
+    returns the output data, so it's optional to specify a file name.
 
   * `co2_ppm` is the amount of CO~2~ in parts per million. The default is 400.
 
@@ -127,7 +129,7 @@ to load it.
   * `I_solar` is the brightness of the sun, in Watts per square meter.
     The default value is 1360.
 
-  * `surface_type` is the type of surface (this is used to calcualte the
+  * `surface_type` is the type of surface (this is used to calculate the
     albedo). The default is `earth average. The options are:
 
     * "`earth average`": The average albedo of the earth (0.30)
@@ -140,28 +142,30 @@ to load it.
     * "`snow`": Typical snow (0.85)
     * "`ice`": Large ice masses covering ocean or land (0.60)
     * "`soil`": Bare soil (0.17)
-    * "`custom": Custom albedo (if you choose this, you need to also supply
+    * "`custom`": Custom albedo (if you choose this, you need to also supply
       a value for `albedo`)
 
   * `tropopause_km` is the altitude of the tropopause, in kilometers above
-    sea level. The default value is 15. On the earth, the tropopause varies
-    from around 9 km at the poles to around 17 km near the equator.
+    sea level. The default value is 15, which is typical of middle latitudes.
+    The tropopause varies from place to place around the Earth, from around 
+    9 km at the poles to around 17 km near the equator.
 
   * `lapse_rate` is the lapse rate, in Kelvin per kilometer. The default is
-    6. The dry adiabatic lapse rate is 10, so it's physically impossible to
-    have a lapse rate greater than 10 and results with `lapse_rate`
-    greater than 10 won't make sense.
+    6, which is roughly the global average environmental lapse rate. 
+    The dry adiabatic lapse rate is 10, so it's physically impossible to
+    have an persistent environmental lapse rate greater than 10 and results 
+    with `lapse_rate` greater than 10 won't make sense.
 
-  * `low_cloud_frac` is the fraction (from 0--1) of the sky covered by
-    low (stratus) clouds. The default is 0.
+  * `low_cloud_frac` is the fraction (from 0.0--1.0) of the sky covered by
+    low (stratus) clouds. The default is 0.0.
 
-  * `high_cloud_frac` is the fraction (from 0--1) of the sky covered by
-    high (cirrus) clouds. The default is 0.
+  * `high_cloud_frac` is the fraction (from 0.0--1.0) of the sky covered by
+    high (cirrus) clouds. The default is 0.0.
 
   * `cloud_drop_radius` is the size of the water droplets in the clouds,
     in microns. The default is 10. (For reference, 10 microns is about the
     size of a red blood cell).
-    You can reduce this to simulate the indirect aerosol effect.
+    You can make the droplets smaller to simulate the indirect aerosol effect.
 
   * `aerosols` allows you to set up the atmosphere with the kinds and
     quantities of aerosols typical of a number of different environments.
@@ -226,7 +230,7 @@ There are also functions for reading RRTM data files and plotting RRTM data:
 * `plot_heat_flows()`: plots the upward and downward fluxes of radiation from
   an RRTM file or data structure. You can call it either with
   `plot_rrtm(file = "filename")` or `plot_rrtm(data = rrtm_data)`, where
-  "`filename`" and "`rrtm_data`" stand for your own filename or rrtm data
+  "`filename`" and "`rrtm_data`" stand for your own file name or RRTM data
   structure returned by `run_rrtm` or `read_rrtm`.
 
     You can also specify which wavelengths to plot. By default, it plots
@@ -263,14 +267,14 @@ What you see in this plot are thick lines representing downward heat flow
 and thin lines representing upward flow. The different colors represent
 shortwave, longwave, and total (shortwave + longwave).
 
-A few things to notice: At the top of the atmospere, at
+A few things to notice: At the top of the atmosphere, at
 `r format_md(max(default_rrtm$fluxes$altitude), digits = 0)` km,
 there is very little longwave going down, but a lot of shortwave going down
-(around `r format_md(tail(default_rrtm$fluxes$sw_down, 1), digits = 0)` W/m^2^).
+(around `r format_md(tail(default_rrtm$fluxes$sw_down, 1), digits = 1)` W/m^2^).
 Conversely, there is a modest amount of shortwave going up
 (around `r format_md(tail(default_rrtm$fluxes$sw_up, 1), digits = 0)` W/m^2^),
 but a lot of longwave going up (around
-`r format_md(tail(default_rrtm$fluxes$lw_up, 1), digits = 0)` W/m^2^).
+`r format_md(tail(default_rrtm$fluxes$lw_up, 1), digits = 1)` W/m^2^).
 
 The upward shortwave radiation is sunlight reflected from the atmosphere and
 the earth's surface.
@@ -300,28 +304,28 @@ new_ts = 286.9 # Kelvin
 rrtm_double_co2_balanced = run_rrtm(co2_ppm = 800, T_surface = new_ts)
 ```
 When we double CO~2~ without changing the surface temperature
-(T~surface = `r format_md(rrtm_double_co2$T_surface, digits = 2)` K),
-this creates a heat imbalance of `r format_md(rrtm_double_co2$Q, digits = 2)`
+(T~surface~ = `r format_md(rrtm_double_co2$T_surface, digits = 3)` K),
+this creates a heat imbalance of `r format_md(rrtm_double_co2$Q, digits = 1)`
 W/m^2^. We can use the online interactive version of RRTM to adjust surface
 temperature until the heat flows balance. The surface temperature where this
-happens is `r format_md(new_ts, digits = 2)` K and we can paste it into our
+happens is `r format_md(new_ts, digits = 3)` K and we can paste it into our
 R code:
 ```{r rrtm_sensitivity, echo = TRUE, include = TRUE, ref.label="rrtm_doubled_co2_balanced"}
 ```
 
 When we set T~surface~ to
-`r format_md(rrtm_double_co2_balanced$T_surface, digits = 2)` K, the heat
+`r format_md(rrtm_double_co2_balanced$T_surface, digits = 3)` K, the heat
 imbalance becomes `r format_md(rrtm_double_co2_balanced$Q, digits = 2)`
 Watts/m^2^. The climate sensitivity is the change in equilibrium
 T~surface~ when you double CO~2~:
-$\Delta T_{2\times \text{CO}_2} = `r format_md(rrtm_double_co2_balanced$T_surface, digits = 2)` \mathrm{K} -
-`r format_md(default_rrtm$T_surface, digits = 2)` \mathrm{K} =
-`r format_md(rrtm_double_co2_balanced$T_surface - default_rrtm$T_surface, digits = 2)`$ K.
-You may remember that when we calculated the climate sensitivity with MODTRAN
-(using constant relative humidity to enable water-vapor feedback) we got
-$\Delta T_{2\times\text{CO}_2} = 1.21$ K for the tropical atmosphere (it's
-smaller for the other atmospheres), so this shows that including convection in
-our calculations roughly doubles the climate sensivity.
+$\Delta T_{2\times \text{CO}_2} = `r format_md(rrtm_double_co2_balanced$T_surface, digits = 3)`~\mathrm{K} -
+`r format_md(default_rrtm$T_surface, digits = 3)`~\mathrm{K} =
+`r format_md(rrtm_double_co2_balanced$T_surface - default_rrtm$T_surface, digits = 1)`~\mathrm{K}$.
+You may remember that in last week's lab, we calculated the climate sensitivity 
+with MODTRAN (using constant relative humidity to enable water-vapor feedback) 
+and got $\Delta T_{2\times\text{CO}_2} = 1.2$ K for the tropical atmosphere 
+(it's smaller for the other atmospheres), so this shows that including 
+convection in our calculations roughly doubles the climate sensitivity.
 
 # New R and RMarkdown tricks
 
@@ -336,11 +340,20 @@ foo = function(x) {
   x^2
 }
 ```
-Now I can write `ifelse(foo(x) < x, "less than", "greater than")`:
+Now I can write `ifelse(foo(x) < x, "less than", "greater than")`. 
+The following RMarkdown text:
+```
 When x = 0.5, `foo(x)` is
-`r x = 0.5; ifelse(foo(x) < x, "less than", "greater than")` x,
+``r 'r'` x = 0.5; ifelse(foo(x) < x, "less than", "greater than")` x,
 but when x = 2.0, `foo(x)` is
-`r x = 2.0; ifelse(foo(x) < x, "less than", "greater than")` x.
+``r 'r'` x = 2.0; ifelse(foo(x) < x, "less than", "greater than")` x.
+```
+becomes 
+
+> When x = 0.5, `foo(x)` is
+> `r x = 0.5; ifelse(foo(x) < x, "less than", "greater than")` x,
+> but when x = 2.0, `foo(x)` is
+> `r x = 2.0; ifelse(foo(x) < x, "less than", "greater than")` x.
 
 You may have spotted a problem with the code above: What if `foo(x)` = x?
 Then I need another `ifelse`:
@@ -357,19 +370,25 @@ compare_f = function(f, x) {
 }
 ```
 Now I can just write `compare_f(foo, x)`:
-When x = 0.5, `foo(x)` is `r compare_f(foo, 0.5)` x, but
-when x = 2.0, `foo(x)` is `r compare_f(foo, 2.0)` x and
-when x = 1.0, `foo(x)` is `r compare_f(foo, 1.0)` x.
+The following RMarkdown text:
+``` r
+When x = 0.5, `foo(x)` is ``r 'r'` compare_f(foo, 0.5)` x, but
+when x = 2.0, `foo(x)` is ``r 'r'` compare_f(foo, 2.0)` x, and
+when x = 1.0, `foo(x)` is ``r 'r'` compare_f(foo, 1.0)` x.
+```
+becomes 
 
-This may seem kind of strange, but it can be helpful if you have a report
-that you prepare regularly with different data and want to be able to
-update by running RMarkdown with different data sets, and have the text
-adjust automatically to what the new numbers are.
+> When x = 0.5, `foo(x)` is `r compare_f(foo, 0.5)` x, but
+> when x = 2.0, `foo(x)` is `r compare_f(foo, 2.0)` x, and
+> when x = 1.0, `foo(x)` is `r compare_f(foo, 1.0)` x.
 
-This approach is used when businesses need to generate monthly reports
-(e.g., sales, finances, etc.) and want to automate the process with an
-RMarkdown report template that can be used over and over with each new
-month's data.
+This may seem kind of strange, but a lot of people and organizations use
+RMarkdown to prepare reports regularly using different data.
+For instance, many businesses use RMarkdown to generate monthly reports
+on sales, finances, etc., and using code like the `compare` function I
+showed here can help to automate the reports, so that when they run the 
+report each month using different data, the text will adjust automatically to 
+reflect the new numbers.
 
 It is also applicable to climate science, where many laboratories like to
 update their reports every month or every year with the latest climate data.
@@ -425,6 +444,22 @@ For each part of this exercise you will do the following:
 2. You will compare the visible and longwave radiation going down through the 
    atmosphere to the surface and also the visible and longwave radiation 
    going up from the surface, through the atmosphere, to space.
+   
+   The results of an RRTM model run have a tibble called `fluxes` with columns
+   for `altitude`, `sw_down`, `sw_up`, `lw_down`, `lw_up`, `total_down`, and
+   `total_up`, where `sw` means shortwave, `lw` means longwave, and `total`
+   is the sum of shortwave plus longwave.
+   
+   The first row of this tibble is at ground-level and the last row
+   is at the top of the atmosphere.
+   
+   ``` r 
+   default_data = run_rrtm()
+   fluxes = default_data$fluxes
+   surface_fluxes = head(fluxes, 1) # get the first row
+   space_fluxes = tail(fluxes, 1)   # get the last row
+   ```
+   
 3. You will adjust the ground temperature until the heat coming in balances
    the heat going out (the model will say, 
    "If the Earth has these properties ... then it loses as much energy as it
@@ -443,16 +478,13 @@ T_surface_default = default$T_surface
 
 a) Change the surface albedo from "Earth's average" to "Asphalt".
    * What is the albedo?
-   * How much does the shortwave light absorbed by the surface change?
-   * How much does the shortwave light going out to space change?
-   * How much does the longwave light absorbed by the surface change?
-   * How much does the longwave light going out to space change?
+   * Report the changes in shortwave and longwave light absorbed by 
+     the surface and going out to space.
    * How much does the total balance of heat change (i.e., how many W/m^2^ does
      the Earth lose or gain)?
-   
    * Adjust the ground temperature until the Earth loses as much energy as it 
      gains. 
-     What is the new surface temperature? 
+   * What is the new surface temperature? 
      How does it compare to the surface temperature in the default 
      configuration?
 
@@ -475,14 +507,12 @@ First, run the RRTM model in its default configuration and note the surface
 temperature and the albedo.
 
 a) Change the low cloud fraction to 0.70 (70%)
-   * How much does the shortwave light absorbed by the surface change?
-   * How much does the shortwave light going out to space change?
-   * How much does the longwave light absorbed by the surface change?
-   * How much does the longwave light going out to space change?
+   * Report the changes in shortwave and longwave light absorbed by the 
+     surface and going out to space.
    * How much does the total balance of heat change 
      (i.e., how many W/m^2^ does the Earth lose or gain)?
    * Adjust the temperature to bring the heat flows back into balance.
-     How much did the temperature change?
+   * How much did the temperature change?
 
 b) Repeat part (a), but with the low cloud fraction set to 0 and the high-cloud
    fraction set to 0.20 (20%).

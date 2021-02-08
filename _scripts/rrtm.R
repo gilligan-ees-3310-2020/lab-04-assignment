@@ -2,6 +2,8 @@ library(pacman)
 p_load(tidyverse, jsonlite, httr, magrittr)
 
 .rrtm <- new.env(parent = globalenv())
+assign("rrtm_url", "http://climatemodels.uchicago.edu/cgi-bin/rrtm/rrtm.py",
+       envir = .rrtm)
 
 # rrtm_params <- read_rds(file.path(find_rstudio_root_file("_data"),
 #                                   "params.Rds"))
@@ -67,7 +69,11 @@ run_rrtm <- function(file = NULL, I_solar = 1360.0, T_surface = 284.42,
                      aerosols = "none",
                      albedo = NULL) {
 
-  rrtm_url <- "http://climatemodels.uchicago.edu/cgi-bin/rrtm/rrtm.py"
+  if (exists("rrtm_url", envir = .rrtm)) {
+    rrtm_url <- get("rrtm_url", envir = .rrtm)
+  } else {
+    rrtm_url <- "http://climatemodels.uchicago.edu/cgi-bin/rrtm/rrtm.py"
+  }
 
   surface_table = tribble(
     ~key, ~descr,
@@ -195,8 +201,8 @@ run_rrtm <- function(file = NULL, I_solar = 1360.0, T_surface = 284.42,
     cirrus_index <- 46
 
   } else {
-  stratus_index <- closest_layer_index(1.0, params$altitude)
-  cirrus_index <- closest_layer_index(params$tropopause, params$altitude)
+    stratus_index <- closest_layer_index(1.0, params$altitude)
+    cirrus_index <- closest_layer_index(params$tropopause, params$altitude)
   }
 
   params$cldf <- rep_len(0, n_layers)
@@ -252,7 +258,7 @@ plot_heat_flows <- function(rrtm, sw = TRUE, lw = TRUE, total = TRUE,
     filter(lambda %in% criteria) %>%
     arrange(altitude)
 
-    ggplot(data, aes(x = val, y = altitude, color = lambda, size = dir)) +
+  ggplot(data, aes(x = val, y = altitude, color = lambda, size = dir)) +
     geom_path() +
     scale_color_manual(values = c(SW = "#B0B040", LW = "#D00000",
                                   Total = "purple"), name = "Wavelength") +
@@ -264,7 +270,7 @@ plot_heat_flows <- function(rrtm, sw = TRUE, lw = TRUE, total = TRUE,
 
 initialize_rrtm <- function() {
   success <- FALSE
-  default_res <- POST(rrtm_url, body = "{}", encode = "raw",
+  default_res <- POST(.rrtm$rrtm_url, body = "{}", encode = "raw",
                       config = list(pragma = "no-cache",
                                     "Cache-Control" = "no-cache"))
   if (default_res$status_code == 200) {
