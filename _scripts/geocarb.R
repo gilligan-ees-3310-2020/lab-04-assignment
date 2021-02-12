@@ -1,9 +1,7 @@
-library(pacman)
-
-p_load(tidyverse)
-p_load(stringr)
-p_load(scales)
-p_load(xml2)
+library(tidyverse)
+library(stringr)
+library(scales)
+library(xml2)
 
 column_names = c(
   year = "year",
