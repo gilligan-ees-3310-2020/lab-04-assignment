@@ -27,21 +27,21 @@ There are two files for this lab.
 ## Instructions:
 
 * Accept this assignment.
-* Clone a local copy of the file repository from github to your
+* Clone a local copy of the file repository from GitHub to your
   own computer.
 * In your local repository, answer the exercises in the template
   `lab-04-exercises.Rmd`.
 * When you are done, knit your `.Rmd` files into PDF files.
 * Use git to commit your changes (including the edits to the `.Rmd` files
   and the new PDF files) to your local git repository.
-* Push the changes from your local git repository to github.
+* Push the changes from your local git repository to GitHub.
 
   The last changes that you push before the due date
   (11:59PM Wednesday Feb. 24) will be graded. If you run into 
   difficulty and need extra time, please contact Mr. de Wet or Prof. Gilligan.
 
 I advise using git to commit changes frequently as you work and push those 
-commits to github.
+commits to GitHub.
 
 I also advise knitting your answers frequently to make sure that they
 knit correctly.
