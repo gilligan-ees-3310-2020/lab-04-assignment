@@ -6,14 +6,14 @@ date: 'Lab: Mon. Feb. 15 Due: Mon. Feb. 24.'
 fontfamily: mathptmx
 fontsize: 12pt
 output:
-  html_document:
-    toc: yes
   word_document:
     toc: yes
   pdf_document:
     toc: yes
     includes:
       in_header: ees3310.sty
+  html_document:
+    toc: yes
   github_document:
     toc: yes
 ---
@@ -498,6 +498,12 @@ b) Change the surface albedo to "Concrete". Answer the same questions as in part
 c) In cities, streets and parking lots are usually paved with asphalt.
    Roofs of houses and other buildings are often covered with asphalt shingles 
    or black rubber-like compounds. 
+
+   The results you got in this exercise represent covering _the entire planet_
+   with asphalt or concrete, so they are far more extreme than you would get
+   from only covering _part of a city_ with one material or the other, but 
+   the general principle holds and in a city you would have much smaller 
+   changes, but they would be in the same direction as you found here.
 
    How would the choice of using asphalt for roads, parking lots, and roofs in
    a large city affect the local climate in the city?

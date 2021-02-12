@@ -419,10 +419,11 @@ the RRTM model at <http://climatemodels.uchicago.edu/rrtm/> than with
 the R interface `run_rrtm`.
 
 1.  Make a tibble containing the values of the lapse rate and the
-    corresponding equilibrium surface temperature, and make a plot with
-    lapse rate on the horizontal axis and surface temperature on the
-    vertical axis.
-
+    corresponding equilibrium surface temperature, and then (in your
+    report):
+    -   Make a table showing lapse rate and temperature.
+    -   Make a plot with lapse rate on the horizontal axis and surface
+        temperature on the vertical axis.
 2.  Describe how the equilibrium surface temperature varies as the lapse
     rate varies.
 
@@ -469,15 +470,16 @@ albedo_default = default$albedo
 T_surface_default = default$T_surface
 ```
 
-1.  Change the surface albedo from “Earth’s average” to “Asphalt”. the
-    changes in the local climate:
+1.  Change the surface type from “Earth’s average” to “Asphalt” (don’t
+    change the surface temperature until the instructions tell you to)
+    and describe the changes in the local climate:
 
     -   What is the albedo?
     -   Report the changes in shortwave and longwave light absorbed by
         the surface and going out to space.
     -   How much does the total balance of heat change (i.e., how many
         W/m<sup>2</sup> does the Earth lose or gain)?
-    -   Adjust the ground temperature until the Earth loses as much
+    -   Now, adjust the ground temperature until the Earth loses as much
         energy as it gains.
     -   What is the new surface temperature? How does it compare to the
         surface temperature in the default configuration?
@@ -488,6 +490,13 @@ T_surface_default = default$T_surface
 3.  In cities, streets and parking lots are usually paved with asphalt.
     Roofs of houses and other buildings are often covered with asphalt
     shingles or black rubber-like compounds.
+
+    The results you got in this exercise represent covering *the entire
+    planet* with asphalt or concrete, so they are far more extreme than
+    you would get from only covering *part of a city* with one material
+    or the other, but the general principle holds and in a city you
+    would have much smaller changes, but they would be in the same
+    direction as you found here.
 
     How would the choice of using asphalt for roads, parking lots, and
     roofs in a large city affect the local climate in the city? Would
