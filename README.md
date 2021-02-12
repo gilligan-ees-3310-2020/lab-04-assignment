@@ -9,7 +9,7 @@ Three things to note:
 * Because of a mixup on my part, I inadvertently briefly made the answers 
   available, so to keep things fair for everyone, I have posted my answers for 
   everyone to see.
-* Because of the in-class reading days on Feb. 23-24, I did not want to make 
+* Because of the in-class reading days on Feb. 23--24, I did not want to make 
   this lab due during or right before or after those reading days, so it will 
   be due Monday March 1. Lab 5 will also be due Mar 1., so you will have to get 
   them both in by then, but between the answers being available and the extra 
