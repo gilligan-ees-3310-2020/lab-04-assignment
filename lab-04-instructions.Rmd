@@ -2,20 +2,20 @@
 title: 'Instructions for Lab #4'
 subtitle: "Convection and Clouds"
 author: "Jonathan Gilligan"
-date: 'Lab: Mon. Feb. 15 Due: Mon. Feb. 24.'
+date: 'Lab: Mon. Feb. 15 Due: Mon. Mar. 1'
 fontfamily: mathptmx
 fontsize: 12pt
 output:
+  github_document:
+    toc: yes
   word_document:
+    toc: yes
+  html_document:
     toc: yes
   pdf_document:
     toc: yes
     includes:
       in_header: ees3310.sty
-  html_document:
-    toc: yes
-  github_document:
-    toc: yes
 ---
 ```{r setup, include=FALSE}
 knitr::knit_hooks$set(inline = function(x) { knitr:::format_sci(x, 'md')})

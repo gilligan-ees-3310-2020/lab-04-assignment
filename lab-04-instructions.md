@@ -1,7 +1,7 @@
 Instructions for Lab \#4
 ================
 Jonathan Gilligan
-Lab: Mon. Feb. 15 Due: Mon. Feb. 24.
+Lab: Mon. Feb. 15 Due: Mon. Mar. 1
 
 -   [Exercises with lapse rate and
     clouds.](#exercises-with-lapse-rate-and-clouds.)

@@ -37,7 +37,7 @@ There are two files for this lab.
 * Push the changes from your local git repository to GitHub.
 
   The last changes that you push before the due date
-  (11:59PM Wednesday Feb. 24) will be graded. If you run into 
+  (9:00 AM Monday March 1) will be graded. If you run into 
   difficulty and need extra time, please contact Mr. de Wet or Prof. Gilligan.
 
 I advise using git to commit changes frequently as you work and push those 
