@@ -2,12 +2,10 @@
 title: 'Instructions for Lab #4'
 subtitle: "Lapse Rates and Clouds"
 author: "Jonathan Gilligan"
-date: 'Lab: Mon. Feb. 15 Due: Mon. Feb. 22.'
+date: 'Lab: Mon. Feb. 15 Due: Mon. Feb. 24.'
 fontfamily: mathptmx
 fontsize: 12pt
 output:
-  github_document:
-    toc: yes
   html_document:
     toc: yes
   word_document:
@@ -16,6 +14,8 @@ output:
     toc: yes
     includes:
       in_header: ees3310.sty
+  github_document:
+    toc: yes
 ---
 ```{r setup, include=FALSE}
 knitr::knit_hooks$set(inline = function(x) { knitr:::format_sci(x, 'md')})
@@ -477,6 +477,7 @@ T_surface_default = default$T_surface
 ```
 
 a) Change the surface albedo from "Earth's average" to "Asphalt".
+   the changes in the local climate:
    * What is the albedo?
    * Report the changes in shortwave and longwave light absorbed by 
      the surface and going out to space.

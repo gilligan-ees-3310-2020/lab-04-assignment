@@ -1,7 +1,7 @@
 Instructions for Lab \#4
 ================
 Jonathan Gilligan
-Lab: Mon. Feb. 15 Due: Mon. Feb. 22.
+Lab: Mon. Feb. 15 Due: Mon. Feb. 24.
 
 -   [Exercises with lapse rate and
     clouds.](#exercises-with-lapse-rate-and-clouds.)
@@ -469,7 +469,8 @@ albedo_default = default$albedo
 T_surface_default = default$T_surface
 ```
 
-1.  Change the surface albedo from “Earth’s average” to “Asphalt”.
+1.  Change the surface albedo from “Earth’s average” to “Asphalt”. the
+    changes in the local climate:
 
     -   What is the albedo?
     -   Report the changes in shortwave and longwave light absorbed by

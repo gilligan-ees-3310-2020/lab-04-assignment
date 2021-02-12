@@ -1,18 +1,20 @@
 ---
 title: 'Lab #4 Exercises'
-subtitle: "Lapse Rates, Clouds, and Water-Vapor Feedback"
+subtitle: "Lapse Rates and Clouds"
 author: "put your name here"
-date: 'Lab: Mon. Feb.~3 Due: Mon. Feb.~10.'
+date: 'Lab: Mon. Feb. 15 Due: Mon. Feb. 24.'
 fontfamily: mathptmx
 fontsize: 12pt
-output: 
+output:
   html_document:
-    toc: yes
-  github_document:
     toc: yes
   word_document:
     toc: yes
   pdf_document:
+    toc: yes
+    includes:
+      in_header: ees3310.sty
+  github_document:
     toc: yes
 ---
 
@@ -20,9 +22,22 @@ output:
 knitr::knit_hooks$set(inline = function(x) { knitr:::format_sci(x, 'md')})
 knitr::opts_chunk$set(echo = TRUE, include = TRUE, cache = FALSE)
 
-# This section loads necessary R libraries and sources scripts that define 
+if (knitr::is_latex_output()) {
+  message("Setting PDF plot hook.")
+  new_plot_hook <- function(x, options)
+    paste("\n", knitr::hook_plot_tex(x, options), "\n")
+
+  knitr::knit_hooks$set(plot = new_plot_hook)
+} else {
+  message("Not using PDF output.")
+}
+
+
+options(dplyr.summarise.inform = FALSE)
+
+# This section loads necessary R libraries and sources scripts that define
 # useful functions format_md.
-# 
+#
 data_dir = "_data"
 script_dir = "_scripts"
 
