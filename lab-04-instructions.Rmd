@@ -1,6 +1,6 @@
 ---
 title: 'Instructions for Lab #4'
-subtitle: "Lapse Rates and Clouds"
+subtitle: "Convection and Clouds"
 author: "Jonathan Gilligan"
 date: 'Lab: Mon. Feb. 15 Due: Mon. Feb. 24.'
 fontfamily: mathptmx
