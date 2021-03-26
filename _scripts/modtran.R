@@ -1,6 +1,5 @@
-library(tidyverse)
-library(scales)
-library(xml2)
+library(pacman)
+p_load(tidyverse, scales, xml2)
 
 ssource <- function(filename, chdir = F) {
   if(!file.exists(filename)) {
