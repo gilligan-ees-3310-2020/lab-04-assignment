@@ -2,7 +2,7 @@
 title: 'Lab #4 Exercises'
 subtitle: "Convection and Clouds"
 author: "put your name here"
-date: 'Lab: Mon. Feb. 15 Due: Mon. Mar. 1'
+date: 'Lab: Mon. Feb. 14 Due: Wed. Feb. 23'
 fontfamily: mathptmx
 fontsize: 12pt
 output:
